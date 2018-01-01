@@ -36,33 +36,34 @@
   :type 'string
   :group 'lsp-clangd)
 
+(defun lsp-clangd--get-root ()
+  "Return the root directory of a clangd project."
+  (or (locate-dominating-file default-directory "compile_commands.json")
+      (user-error "Could not find clangd project root")))
+
 (lsp-define-stdio-client lsp-clangd-c++
                          "cpp"
-                         (lsp-make-traverser "compile_commands.json")
+                         #'lsp-clangd--get-root
                          (list lsp-clangd-executable)
-                         :ignore-regexps
-                         '("^Error -[0-9]+: .+$"))
+                         :ignore-regexps '("^Notification ignored.$"))
 
 (lsp-define-stdio-client lsp-clangd-c
                          "c"
-                         (lsp-make-traverser "compile_commands.json")
+                         #'lsp-clangd--get-root
                          (list lsp-clangd-executable)
-                         :ignore-regexps
-                         '("^Error -[0-9]+: .+$"))
+                         :ignore-regexps '("^Notification ignored.$"))
 
 (lsp-define-stdio-client lsp-clangd-objc
                          "objective-c"
-                         (lsp-make-traverser "compile_commands.json")
+                         #'lsp-clangd--get-root
                          (list lsp-clangd-executable)
-                         :ignore-regexps
-                         '("^Error -[0-9]+: .+$"))
+                         :ignore-regexps '("^Notification ignored.$"))
 
 (lsp-define-stdio-client lsp-clangd-objc++
                          "objective-cpp"
-                         (lsp-make-traverser "compile_commands.json")
+                         #'lsp-clangd--get-root
                          (list lsp-clangd-executable)
-                         :ignore-regexps
-                         '("^Error -[0-9]+: .+$"))
+                         :ignore-regexps '("^Notification ignored.$"))
 
 (provide 'lsp-clangd)
 
