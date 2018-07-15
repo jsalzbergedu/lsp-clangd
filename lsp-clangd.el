@@ -33,8 +33,7 @@
 (defcustom lsp-clangd-executable
   "clangd"
   "The clangd executable."
-  :type 'string
-  :group 'lsp-clangd)
+  :type 'string)
 
 (lsp-define-stdio-client lsp-clangd-c++
                          "cpp"
