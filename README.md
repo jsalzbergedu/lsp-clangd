@@ -48,7 +48,7 @@ loaded.
 
 (with-eval-after-load 'lsp-mode
   (require 'lsp-clangd)
-  (add-hook 'c-mode--hook #'lsp-clangd-c-enable)
+  (add-hook 'c-mode-hook #'lsp-clangd-c-enable)
   (add-hook 'c++-mode-hook #'lsp-clangd-c++-enable)
   (add-hook 'objc-mode-hook #'lsp-clangd-objc-enable))
 ```
@@ -81,7 +81,7 @@ executable for macOS.
   (when (equal system-type 'darwin)
     (setq lsp-clangd-executable "/usr/local/opt/llvm/bin/clangd"))
 
-  (add-hook 'c-mode--hook #'lsp-clangd-c-enable)
+  (add-hook 'c-mode-hook #'lsp-clangd-c-enable)
   (add-hook 'c++-mode-hook #'lsp-clangd-c++-enable)
   (add-hook 'objc-mode-hook #'lsp-clangd-objc-enable))
 ```
