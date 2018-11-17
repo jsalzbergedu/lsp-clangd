@@ -36,30 +36,42 @@
   :type 'string
   :group 'lsp-clangd)
 
+(defvar-local lsp-clangd-launch-directory
+  nil
+  "If set, this variable is where clangd is started.")
+
+(put 'lsp-clangd-launch-directory 'safe-local-variable #'stringp)
+
+(defun lsp-clangd-make-traverser (filename)
+  "Unless lsp-clangd-launch-directory is set, walk upward from the current directory to FILENAME.
+Use lsp-clangd-executable to do so."
+  (or lsp-clangd-launch-directory
+      (lsp-make-traverser filename)))
+
 (lsp-define-stdio-client lsp-clangd-c++
                          "cpp"
-                         (lsp-make-traverser "compile_commands.json")
+                         (lsp-clangd-make-traverser "compile_commands.json")
                          (list lsp-clangd-executable)
                          :ignore-regexps
                          '("^Error -[0-9]+: .+$"))
 
 (lsp-define-stdio-client lsp-clangd-c
                          "c"
-                         (lsp-make-traverser "compile_commands.json")
+                         (lsp-clangd-make-traverser "compile_commands.json")
                          (list lsp-clangd-executable)
                          :ignore-regexps
                          '("^Error -[0-9]+: .+$"))
 
 (lsp-define-stdio-client lsp-clangd-objc
                          "objective-c"
-                         (lsp-make-traverser "compile_commands.json")
+                         (lsp-clangd-make-traverser "compile_commands.json")
                          (list lsp-clangd-executable)
                          :ignore-regexps
                          '("^Error -[0-9]+: .+$"))
 
 (lsp-define-stdio-client lsp-clangd-objc++
                          "objective-cpp"
-                         (lsp-make-traverser "compile_commands.json")
+                         (lsp-clangd-make-traverser "compile_commands.json")
                          (list lsp-clangd-executable)
                          :ignore-regexps
                          '("^Error -[0-9]+: .+$"))
