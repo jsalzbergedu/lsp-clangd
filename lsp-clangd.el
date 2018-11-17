@@ -45,8 +45,8 @@
 (defun lsp-clangd-make-traverser (filename)
   "Unless lsp-clangd-launch-directory is set, walk upward from the current directory to FILENAME.
 Use lsp-clangd-executable to do so."
-  (or lsp-clangd-launch-directory
-      (lsp-make-traverser filename)))
+  (lambda () (or lsp-clangd-launch-directory
+            (lsp-make-traverser filename))))
 
 (lsp-define-stdio-client lsp-clangd-c++
                          "cpp"
